@@ -6,6 +6,7 @@ import routes from "./routes/index.js";
 
 const app = express();
 
+// Route Mapping 하기 전에 사용될 middle ware 설정
 app
   .use(
     bodyParser.json({
@@ -21,6 +22,7 @@ app
   )
   .use(cors());
 
+// Route Mapping
 app.use("/posts", routes.posts);
 
 const CONNECT_URL =

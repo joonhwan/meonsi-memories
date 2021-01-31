@@ -31,12 +31,13 @@ module.exports = {
                 "@babel/preset-env",
                 {
                   targets: {
-                    browsers: ["> 1% in KR"], // browserliset
+                    //browsers: ["> 1% in KR"], // browserliset
+                    esmodules: true,
                   },
                   debug: dev,
                 },
               ],
-              "@babel/preset-react", //
+              "@babel/preset-react",
             ],
             plugins: [
               dev && "react-refresh/babel", //
@@ -44,8 +45,21 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
+      },
     ],
   },
+  devtool: "eval-cheap-module-source-map",
   plugins: [dev && new ReactRefreshWebpackPlugin()].filter(Boolean),
   devServer: {
     contentBase: dir("public"),
