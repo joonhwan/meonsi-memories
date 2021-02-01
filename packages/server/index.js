@@ -27,6 +27,9 @@ app
 
 // Route Mapping
 app.use("/posts", routes.posts);
+app.get("/", (req, res) => {
+  res.send("Hello to Memories API");
+});
 
 const CONNECT_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 5000;
