@@ -4,6 +4,7 @@
         "packages/*"
     ],
     "scripts": {
+        "client": "yarn workspace @mern-app/client start",
         "server": "yarn workspace @mern-app/server start",
         "start": "yarn server"
     }

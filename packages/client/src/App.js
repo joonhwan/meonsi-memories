@@ -12,6 +12,7 @@ export default function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(null);
+  const [popupPost, setPopupPost] = useState(null);
   console.log("dispatch", dispatch);
 
   useEffect(() => {
@@ -20,35 +21,51 @@ export default function App() {
 
   return (
     <Container maxwidth="lg">
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography className={classes.heading} variant="h3" align="center">
-          메모장
-        </Typography>
-        <img
-          className={classes.image}
-          src={memories}
-          alt="memories"
-          height="60"
-        />
-      </AppBar>
-      <Grow in>
-        <Container>
-          <Grid
-            container
-            className={classes.mainContainer}
-            justify="space-between"
-            //alignItems="stretch"
-            spacing={1}
-          >
-            <Grid item xs={12} sm={7}>
-              <Posts setCurrentId={setCurrentId} />
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <Form currentId={currentId} setCurrentId={setCurrentId} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
+      {popupPost ? (
+        <Grid item xs={12}>
+          <img
+            className={classes.zoomedImage}
+            src={popupPost.selectedFile}
+            alt={popupPost.title}
+            onClick={() => setPopupPost(null)}
+          />
+        </Grid>
+      ) : (
+        <>
+          <AppBar className={classes.appBar} position="static" color="inherit">
+            <Typography className={classes.heading} variant="h3" align="center">
+              메모장
+            </Typography>
+            <img
+              className={classes.image}
+              src={memories}
+              alt="memories"
+              height="60"
+            />
+          </AppBar>
+          <Grow in>
+            <Container>
+              <Grid
+                container
+                className={classes.mainContainer}
+                justify="space-between"
+                //alignItems="stretch"
+                spacing={1}
+              >
+                <Grid item xs={12} sm={7}>
+                  <Posts
+                    setCurrentId={setCurrentId}
+                    setPopupPost={setPopupPost}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={5}>
+                  <Form currentId={currentId} setCurrentId={setCurrentId} />
+                </Grid>
+              </Grid>
+            </Container>
+          </Grow>
+        </>
+      )}
     </Container>
   );
 }

@@ -19,12 +19,22 @@ import { deletePost, likePost } from "../../../actions";
 
 moment.locale("ko");
 
-const Post = ({ post, setCurrentId }) => {
+const Post = ({ post, setCurrentId, setPopupPost }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const handleImageClick = () => {
+    if (post.selectedFile) {
+      setPopupPost(post);
+    }
+  };
   return (
     <Card className={classes.card}>
-      <CardMedia className={classes.media} image={post.selectedFile} />
+      <CardMedia
+        className={classes.media}
+        image={post.selectedFile}
+        src={post.title}
+        onClick={handleImageClick}
+      ></CardMedia>
       <div className={classes.overlay}>
         <Typography variant="h6">{post.creator}</Typography>
         <Typography variant="body2">
