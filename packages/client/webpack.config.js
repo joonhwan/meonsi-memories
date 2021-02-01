@@ -9,7 +9,7 @@ console.log("@@@ dev = ", dev);
 
 module.exports = {
   mode: dev ? "development" : "production",
-  target: dev ? "web" : "browserslist",
+  target: "web", //dev ? "web" : "browserslist",
   entry: {
     main: dir("src/index.js"),
   },
