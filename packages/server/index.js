@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import routes from "./routes/index.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -25,8 +28,7 @@ app
 // Route Mapping
 app.use("/posts", routes.posts);
 
-const CONNECT_URL =
-  "mongodb+srv://joonhwan:ADGqet135!@cluster0.5ubrr.mongodb.net/memories?retryWrites=true&w=majority";
+const CONNECT_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 5000;
 
 mongoose
