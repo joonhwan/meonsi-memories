@@ -2,5 +2,9 @@
     "private": true,
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "scripts": {
+        "server": "yarn workspace @mern-app/server start",
+        "start": "yarn server"
+    }
 }
