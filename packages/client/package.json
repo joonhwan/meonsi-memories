@@ -14,11 +14,14 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "axios": "^0.21.1",
     "file-loader": "^6.2.0",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-file-base64": "^1.0.3",
+    "react-google-login": "^5.2.2",
     "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
@@ -37,7 +40,7 @@
     "webpack-cli": "^4.4.0",
     "webpack-dev-server": "^3.11.2"
   },
-   "browserslist": [
+  "browserslist": [
     "defaults",
     "not IE 11",
     "maintained node versions"

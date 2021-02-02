@@ -43,7 +43,7 @@ export default makeStyles({
   },
   title: {
     padding: "0 0",
-    margin: "0 8px",
+    margin: "0px 8px !important",
   },
   cardActions: {
     padding: "0 16px 8px 16px",
