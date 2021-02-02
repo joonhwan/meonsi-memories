@@ -52,7 +52,7 @@ const Navbar = () => {
               className={classes.logout}
               color="secondary"
             >
-              Logout
+              로그아웃
             </Button>
           </div>
         ) : (
@@ -62,7 +62,7 @@ const Navbar = () => {
             variant="contained"
             color="primary"
           >
-            Sign In
+            로그인
           </Button>
         )}
       </Toolbar>
