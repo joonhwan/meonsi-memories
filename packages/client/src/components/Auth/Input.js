@@ -11,6 +11,19 @@ function Input({
   handleChange,
   handleShowPassword,
 }) {
+  const inputProps =
+    name === "password" || name === "confirmPassword"
+      ? {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleShowPassword}>
+                {type === "password" ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }
+      : null;
+  console.log(`name=${name}, inputProps=`, inputProps);
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
       <TextField
@@ -19,19 +32,9 @@ function Input({
         variant="outlined"
         fullWidth
         type={type}
-        handleChange={handleChange}
+        onChange={handleChange}
         autoFocus={autoFocus}
-        inputProps={
-          name === "password" && {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleShowPassword}>
-                  {type === "password" ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }
-        }
+        InputProps={inputProps}
       ></TextField>
     </Grid>
   );

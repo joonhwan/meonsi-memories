@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   Container,
   Button,
@@ -12,8 +14,29 @@ import memories from "../../images/memories.png";
 import useStyles from "./styles";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
-  const user = null;
+  const authData = useSelector((state) => state.auth.authData);
+  const user = authData;
+
+  const logOut = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/auth");
+  };
+
+  useEffect(() => {
+    // TODO jwt 작업...
+    if (!authData) {
+      const profile = localStorage.getItem("profile");
+      if (profile) {
+        const { result, token } = profile;
+        dispatch({ type: "AUTH", payload: { result, token } });
+      }
+    }
+    //const token = authData?.token;
+  });
+  console.log("user = ", user);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
@@ -51,6 +74,7 @@ const Navbar = () => {
               variant="contained"
               className={classes.logout}
               color="secondary"
+              onClick={logOut}
             >
               로그아웃
             </Button>
