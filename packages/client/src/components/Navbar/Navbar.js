@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Container,
   Button,
@@ -16,9 +16,18 @@ import useStyles from "./styles";
 const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
   const authData = useSelector((state) => state.auth.authData);
   const user = authData;
+  if (user && user.result) {
+    const { name, firstName, lastName } = user.result;
+    if (!name && firstName && lastName) {
+      user.result.name = `${lastName} ${firstName}`;
+    }
+  }
+  const showLoginButton = location.pathname !== "/auth";
+  console.log("showLoginButton = ", showLoginButton);
 
   const logOut = () => {
     dispatch({ type: "LOGOUT" });
@@ -35,7 +44,7 @@ const Navbar = () => {
       }
     }
     //const token = authData?.token;
-  });
+  }, [dispatch, location]);
   console.log("user = ", user);
 
   return (
@@ -80,14 +89,16 @@ const Navbar = () => {
             </Button>
           </div>
         ) : (
-          <Button
-            component={Link}
-            to="/auth"
-            variant="contained"
-            color="primary"
-          >
-            로그인
-          </Button>
+          showLoginButton && (
+            <Button
+              component={Link}
+              to="/auth"
+              variant="contained"
+              color="primary"
+            >
+              로그인
+            </Button>
+          )
         )}
       </Toolbar>
     </AppBar>

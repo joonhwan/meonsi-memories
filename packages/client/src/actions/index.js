@@ -1,4 +1,5 @@
 import * as api from "../api";
+import { AUTH } from "./constants";
 
 // Action Creators
 
@@ -55,5 +56,28 @@ export const likePost = (id) => async (dispatch) => {
     dispatch({ type: "UPDATE", payload: data });
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const signin = (formData, history) => async (dispatch) => {
+  try {
+    // log in here...
+    const { data } = await api.signin(formData);
+    dispatch({ type: AUTH, payload: data });
+    history.push("/");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const signup = (formData, history) => async (dispatch) => {
+  try {
+    // sign out here.
+    const { data } = await api.signup(formData);
+    const { name, firstName, lastName } = data.result;
+    dispatch({ type: AUTH, payload: data });
+    history.push("/");
+  } catch (error) {
+    console.log(error);
   }
 };

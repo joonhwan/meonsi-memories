@@ -58,14 +58,27 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!req.userId) {
+      return res.status(403).json({ message: "Unauthenticated" });
+    }
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).send(`Invalid Post's id(=${id})`);
     }
     console.log("like post : id = ", id);
     const post = await PostMessage.findById(id);
+    const userIdString = String(req.userId);
+    const index = post.likes.findIndex((id) => id === userIdString);
+    if (index < 0) {
+      // 이전에 이 사용자의 like 가 없었음. 새로 like에 추가.
+      post.likes.push(userIdString);
+    } else {
+      // 이전에 이 사용자가 이미 Like 한 항목. 기존 like에서 이 사용자 제거
+      post.likes = post.likes.filter((id) => id === userIdString);
+    }
     const updatedPost = await PostMessage.findByIdAndUpdate(
       id,
-      { likeCount: post.likeCount + 1 },
+      { likes: post.likes },
       { new: true }
     ).lean();
     const { selectedFile, ...other } = updatedPost;

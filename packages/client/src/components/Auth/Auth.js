@@ -14,8 +14,16 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { GoogleLogin } from "react-google-login";
 import useStyles from "./styles";
 import Icon from "./googleIcon";
-
+import { signin, signup } from "../../actions";
 import Input from "./Input";
+
+const initFormData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 function Auth() {
   const dispatch = useDispatch();
@@ -23,13 +31,21 @@ function Auth() {
   const history = useHistory();
 
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState(initFormData);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const handleSubmit = () => {
-    console.log("submit.....");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submit.. formData = ", formData);
+    if (isSignUp) {
+      dispatch(signup(formData, history));
+    } else {
+      dispatch(signin(formData, history));
+    }
   };
   const handleChange = (e) => {
-    console.log("handle change...");
+    //console.log("handle change. : e = ", e.target.name, e.target.value);
+    setFormData((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
   const handleShowPassword = () => {
     setPasswordVisible((state) => !state);

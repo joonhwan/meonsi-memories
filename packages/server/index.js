@@ -27,6 +27,7 @@ app
 
 // Route Mapping
 app.use("/posts", routes.posts);
+app.use("/user", routes.users);
 app.get("/", (req, res) => {
   res.send("Hello to Memories API");
 });
