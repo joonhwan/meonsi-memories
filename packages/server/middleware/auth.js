@@ -4,7 +4,7 @@ import { SECRET } from "../controllers/users.js";
 const auth = async (req, res, next) => {
   try {
     // "Authorization=Bearer {token}"
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers.Authorization?.split(" ")[1];
     console.log("auth middleware detect token : ", token);
     if (token) {
       let decodedData = jwt.decode(token);

@@ -13,7 +13,11 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const post = req.body;
-    const newPost = new PostMessage(post); // js object를 사용한 named arguments 패턴 😅
+    const newPost = new PostMessage({
+      ...post,
+      creator: req.userId,
+      createdAt: new Date().toISOString(),
+    }); // js object를 사용한 named arguments 패턴 😅
     await newPost.save();
     res.status(201).json(newPost);
   } catch (error) {
