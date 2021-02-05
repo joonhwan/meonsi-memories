@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT } from "../actions/constants";
+import { AUTH, AUTHCHECK, LOGOUT } from "../actions/constants";
 
 const initialState = {
   authData: null,
@@ -6,6 +6,15 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AUTHCHECK:
+      const profileData = localStorage.getItem("profile");
+      if (profileData) {
+        const profile = JSON.parse(profileData);
+        console.log("auth check : detect old profile : ", profile);
+        const { result, token } = profile;
+        return { ...state, authData: { result, token } };
+      }
+      return state;
     case AUTH:
       const { result, token } = action?.payload;
       const profile = { result, token };

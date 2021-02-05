@@ -12,7 +12,6 @@ export const Home = () => {
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(null);
   const [popupPost, setPopupPost] = useState(null);
-  console.log("dispatch", dispatch);
 
   useEffect(() => {
     dispatch(getPosts());

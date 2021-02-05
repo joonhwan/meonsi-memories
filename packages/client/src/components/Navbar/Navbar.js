@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import memories from "../../images/memories.png";
+import { AUTH, AUTHCHECK } from "../../actions/constants";
 import useStyles from "./styles";
 
 const Navbar = () => {
@@ -18,8 +19,9 @@ const Navbar = () => {
   const history = useHistory();
   const location = useLocation();
   const classes = useStyles();
-  const authData = useSelector((state) => state.auth.authData);
-  const user = authData;
+  const authState = useSelector((state) => state.auth);
+  console.log("Navbar renders : authState = ", authState);
+  const user = authState.authData;
   if (user && user.result) {
     const { name, firstName, lastName } = user.result;
     if (!name && firstName && lastName) {
@@ -27,7 +29,7 @@ const Navbar = () => {
     }
   }
   const showLoginButton = location.pathname !== "/auth";
-  console.log("showLoginButton = ", showLoginButton);
+  //console.log("showLoginButton = ", showLoginButton);
 
   const logOut = () => {
     dispatch({ type: "LOGOUT" });
@@ -36,16 +38,16 @@ const Navbar = () => {
 
   useEffect(() => {
     // TODO jwt 작업...
-    if (!authData) {
-      const profile = localStorage.getItem("profile");
-      if (profile) {
-        const { result, token } = profile;
-        dispatch({ type: "AUTH", payload: { result, token } });
-      }
+    if (!user) {
+      // const profile = localStorage.getItem("profile");
+      // if (profile) {
+      //   const { result, token } = profile;
+      //   dispatch({ type: "AUTH", payload: { result, token } });
+      // }
+      dispatch({ type: AUTHCHECK });
     }
     //const token = authData?.token;
   }, [dispatch, location]);
-  console.log("user = ", user);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
