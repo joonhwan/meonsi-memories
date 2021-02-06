@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getLocalStoreItem } from "@mern-app/common/utils";
-const url = "http://localhost:5000";
-//const url = "https://my-memories-mern-app.herokuapp.com";
+//const url = "http://localhost:5000";
+const url = "https://my-memories-mern-app.herokuapp.com";
 
 const API = axios.create({ baseURL: url });
 
