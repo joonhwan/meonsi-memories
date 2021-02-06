@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import decode from "jwt-decode";
-import memories from "../../images/memories.png";
+import memories from "../../images/memories.jpeg";
 import { AUTH, AUTHCHECK } from "../../actions/constants";
 import useStyles from "./styles";
 
@@ -41,17 +41,17 @@ const Navbar = () => {
     if (user) {
       const token = decode(user.token);
       const interval = setInterval(() => {
-        console.log("@@@ checking user expires ... token = ", token);
+        //console.log("@@@ checking user expires ... token = ", token);
         if (token.exp * 1000 < new Date().getTime()) {
           logOut();
         }
       }, 30 * 1000);
       return () => {
-        console.log("@@@ stop checking user expires...");
+        //console.log("@@@ stop checking user expires...");
         clearInterval(interval);
       };
     } else {
-      console.log("@@@ checking old profile : AUTHCHECK");
+      //console.log("@@@ checking old profile : AUTHCHECK");
       dispatch({ type: AUTHCHECK });
     }
     //const token = authData?.token;
@@ -64,10 +64,10 @@ const Navbar = () => {
           component={Link}
           to="/"
           className={classes.heading}
-          variant="h3"
+          variant="h5"
           align="center"
         >
-          메모장
+          멍시멍시 메모장
         </Typography>
         <img
           className={classes.image}
