@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles({
   media: {
     height: 0,
-    paddingTop: "56.25%",
+    paddingTop: "100px", //"56.25%",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     backgroundBlendMode: "darken",
   },
@@ -18,6 +18,7 @@ export default makeStyles({
     flexDirection: "column",
     justifyContent: "space-between",
     borderRadius: "15px",
+    //height: "250px", //"100%",
     height: "100%",
     position: "relative",
   },

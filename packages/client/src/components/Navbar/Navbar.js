@@ -10,6 +10,7 @@ import {
   Avatar,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import decode from "jwt-decode";
 import memories from "../../images/memories.png";
 import { AUTH, AUTHCHECK } from "../../actions/constants";
 import useStyles from "./styles";
@@ -19,9 +20,8 @@ const Navbar = () => {
   const history = useHistory();
   const location = useLocation();
   const classes = useStyles();
-  const authState = useSelector((state) => state.auth);
-  console.log("Navbar renders : authState = ", authState);
-  const user = authState.authData;
+  const user = useSelector((state) => state.auth.authData);
+  //console.log("Navbar renders : user = ", user);
   if (user && user.result) {
     const { name, firstName, lastName } = user.result;
     if (!name && firstName && lastName) {
@@ -38,12 +38,20 @@ const Navbar = () => {
 
   useEffect(() => {
     // TODO jwt 작업...
-    if (!user) {
-      // const profile = localStorage.getItem("profile");
-      // if (profile) {
-      //   const { result, token } = profile;
-      //   dispatch({ type: "AUTH", payload: { result, token } });
-      // }
+    if (user) {
+      const token = decode(user.token);
+      const interval = setInterval(() => {
+        console.log("@@@ checking user expires ... token = ", token);
+        if (token.exp * 1000 < new Date().getTime()) {
+          logOut();
+        }
+      }, 30 * 1000);
+      return () => {
+        console.log("@@@ stop checking user expires...");
+        clearInterval(interval);
+      };
+    } else {
+      console.log("@@@ checking old profile : AUTHCHECK");
       dispatch({ type: AUTHCHECK });
     }
     //const token = authData?.token;

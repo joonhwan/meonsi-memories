@@ -62,7 +62,7 @@ export async function signin(req, res) {
         id: existingUser._id,
       },
       SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "30s" }
     );
 
     res.status(200).json({ result: existingUser, token });

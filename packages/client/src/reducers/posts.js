@@ -1,13 +1,19 @@
 const initialState = [];
 
+const translate = (post) => {
+  post.likeCount = post.likes?.length || post.likeCount;
+  return post;
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "FETCH_ALL":
-      return action.payload;
+      const posts = action.payload.map(translate);
+      return posts;
     case "CREATE":
-      return [...state, action.payload];
+      return [...state, translate(action.payload)];
     case "UPDATE":
-      const updatedPost = action.payload;
+      const updatedPost = translate(action.payload);
       return state.map((post) =>
         post._id === updatedPost._id ? updatedPost : post
       );

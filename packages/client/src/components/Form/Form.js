@@ -35,12 +35,19 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   }, [currentPost]);
 
+  if (!user) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h5" align="center">
+          새로운 메모를 작성하려면 로그인하세요.
+        </Typography>
+      </Paper>
+    );
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!user) {
-      console.log("No user. cannot submit.");
-      return;
-    }
+
     console.log("create/update post for user = ", user);
     const name = `${user.lastName} ${user.firstName}`;
     const post = {
@@ -69,7 +76,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">메모 {currentId ? "편집하기" : "작성하기"}</Typography>
         {/* <TextField name="creator" value={creator} onChange={(e)=>setCreator(e.target.value)} variant="outlined" label="Creator" fullWidth /> */}
         <TextField name="title" value={title} onChange={(e)=>setTitle(e.target.value)} variant="outlined" label="Title" fullWidth />
-        <TextField name="message" value={message} onChange={(e)=>setMessage(e.target.value)} variant="outlined" label="Message" fullWidth />
+        <TextField name="message" value={message} onChange={(e) => setMessage(e.target.value)} variant="outlined" label="Message" multiline rows={4}  fullWidth />
         <TextField name="tags" value={tags} onChange={(e) => setTags(e.target.value)} variant="outlined" label="Tags" fullWidth />
         <div className={classes.fileInput}>
           <FileBase type="file" multiple={false} onDone={({base64})=> setSelectedFile(base64)} />

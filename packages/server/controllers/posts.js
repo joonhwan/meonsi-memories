@@ -13,9 +13,11 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const post = req.body;
+    const user = req.user;
     const newPost = new PostMessage({
       ...post,
-      creator: req.userId,
+      name: user.name,
+      creator: user.id,
       createdAt: new Date().toISOString(),
     }); // js object를 사용한 named arguments 패턴 😅
     await newPost.save();
@@ -63,31 +65,40 @@ export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!req.userId) {
+    if (!req.user) {
       return res.status(403).json({ message: "Unauthenticated" });
     }
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).send(`Invalid Post's id(=${id})`);
     }
     console.log("like post : id = ", id);
-    const post = await PostMessage.findById(id);
-    const userIdString = String(req.userId);
+    const post = await PostMessage.findOne({ _id: id });
+    console.log("@@@ post = ", post._id, post.likes);
+    const userIdString = String(req.user.id);
     const index = post.likes.findIndex((id) => id === userIdString);
     if (index < 0) {
       // 이전에 이 사용자의 like 가 없었음. 새로 like에 추가.
       post.likes.push(userIdString);
+      console.log(" --> adding like : ", userIdString);
     } else {
       // 이전에 이 사용자가 이미 Like 한 항목. 기존 like에서 이 사용자 제거
-      post.likes = post.likes.filter((id) => id === userIdString);
+      post.likes = post.likes.filter((id) => id !== userIdString);
+      console.log(" --> removing like : ", post.likes);
     }
-    const updatedPost = await PostMessage.findByIdAndUpdate(
-      id,
-      { likes: post.likes },
-      { new: true }
-    ).lean();
-    const { selectedFile, ...other } = updatedPost;
-    console.log("liked post : ", other);
-    res.json(updatedPost);
+    // if (post.likeCount) {
+    //   post.likeCount = null;
+    // }
+    //await post.save();
+    await PostMessage.updateOne(
+      { _id: id },
+      {
+        likes: post.likes,
+        likeCount: undefined,
+      }
+    );
+
+    console.log(`liked post : id=${post._id}, likes=`, post.likes);
+    res.json(post);
   } catch (error) {
     res.status(403).json({ message: error.message });
   }
